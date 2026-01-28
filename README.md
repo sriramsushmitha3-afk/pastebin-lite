@@ -110,3 +110,8 @@ This ensures data survives across serverless requests and deployments.
 * In-memory storage is not used.
 * Secrets are managed via Vercel environment variables.
 * Designed to pass deterministic expiry tests using `TEST_MODE` and `x-test-now-ms`.
+
+## Deployment
+
+Production URL:
+https://pastebinlite-flax.vercel.app
