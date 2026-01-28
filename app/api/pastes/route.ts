@@ -13,13 +13,20 @@ export async function POST(req: Request) {
     }
 
     const pasteId = randomUUID();
+    const now = new Date();
+
+const expiresAt =
+  typeof body.ttl_seconds === "number"
+    ? new Date(now.getTime() + body.ttl_seconds * 1000).toISOString()
+    : null;
 
     // Prepare paste object
     const pasteData = {
       content: body.content,
-      created_at: Date.now(),
+      created_at: now.toISOString(),
       ttl_seconds: typeof body.ttl_seconds === "number" ? body.ttl_seconds : null,
       max_views: typeof body.max_views === "number" ? body.max_views : null,
+      expires_at: expiresAt,
       views: 0,
     };
 
@@ -32,7 +39,7 @@ export async function POST(req: Request) {
     return new Response(
       JSON.stringify({
         id: pasteId,
-        url: `http://${process.env.VERCEL_URL || "localhost:3000"}/p/${pasteId}`,
+url: `${process.env.VERCEL_URL ? "https://" + process.env.VERCEL_URL : "http://localhost:3000"}/p/${pasteId}`,
       }),
       { status: 201, headers: { "Content-Type": "application/json" } }
     );
